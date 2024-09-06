@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "patients")
@@ -31,5 +30,5 @@ public class Patient {
 
     @OneToMany(mappedBy = "patient")
     @JsonIgnore
-    private Set<Turn> turns = new HashSet<>();
+    private List<Appointment> appointments;
 }
