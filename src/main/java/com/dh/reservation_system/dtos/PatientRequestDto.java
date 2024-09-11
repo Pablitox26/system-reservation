@@ -21,4 +21,6 @@ public class PatientRequestDto {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dischargeDate;
+
+    private AddressRequestDto address;
 }
