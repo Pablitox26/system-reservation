@@ -1,4 +1,4 @@
-package com.dh.reservation_system.cntrollers;
+package com.dh.reservation_system.controllers;
 
 import com.dh.reservation_system.dtos.PatientRequestDto;
 import com.dh.reservation_system.dtos.PatientRequestToUpdateDto;
