@@ -5,6 +5,7 @@ import com.dh.reservation_system.dtos.DentistRequestToUpdateDto;
 import com.dh.reservation_system.dtos.DentistResponseDto;
 import com.dh.reservation_system.services.IDentistService;
 import com.dh.reservation_system.services.impl.DentistService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class DentistController {
     }
 
     @PostMapping
-    public ResponseEntity<DentistResponseDto> save(@RequestBody DentistRequestDto dentistRequestDto) {
+    public ResponseEntity<DentistResponseDto> save(@Valid @RequestBody DentistRequestDto dentistRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(dentistService.save(dentistRequestDto));
     }
 
@@ -42,7 +43,7 @@ public class DentistController {
     }
 
     @PutMapping
-    public ResponseEntity<DentistResponseDto> update(@RequestBody DentistRequestToUpdateDto dentistRequestDto) {
+    public ResponseEntity<DentistResponseDto> update(@Valid @RequestBody DentistRequestToUpdateDto dentistRequestDto) {
         return ResponseEntity.ok(dentistService.update(dentistRequestDto));
     }
 

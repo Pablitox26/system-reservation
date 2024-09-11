@@ -4,6 +4,7 @@ import com.dh.reservation_system.dtos.DentistRequestDto;
 import com.dh.reservation_system.dtos.DentistRequestToUpdateDto;
 import com.dh.reservation_system.dtos.DentistResponseDto;
 import com.dh.reservation_system.entities.Dentist;
+import com.dh.reservation_system.exceptions.NotFoundException;
 import com.dh.reservation_system.repositories.IDentistRepository;
 import com.dh.reservation_system.services.IDentistService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,16 +40,18 @@ public class DentistService implements IDentistService {
 
     @Override
     public DentistResponseDto findById(Long id) {
-        return dentistRepository.findById(id)
-                .map(this::mapToDto)
-                .orElse(null);
+        Dentist dentist = dentistRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Dentist not found")
+        );
+        return mapToDto(dentist);
     }
 
     @Override
     public DentistResponseDto findByLicenseMedical(String licenseMedical) {
-        return dentistRepository.findByLicenseMedical(licenseMedical)
-                .map(this::mapToDto)
-                .orElse(null);
+        Dentist dentist =  dentistRepository.findByLicenseMedical(licenseMedical).orElseThrow(
+                () -> new NotFoundException("Dentist not found")
+        );
+        return mapToDto(dentist);
     }
 
     @Override
