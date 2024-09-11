@@ -1,11 +1,12 @@
 package com.dh.reservation_system.services;
 
-import com.dh.reservation_system.entities.Appointment;
+import com.dh.reservation_system.dtos.AppointmentRequestDto;
+import com.dh.reservation_system.dtos.AppointmentResponseDto;
 
 import java.util.List;
 
 public interface IAppointmentService {
-    Appointment save(Appointment appointment);
-    List<Appointment> findAll();
-    Appointment findById(Long id);
+    AppointmentResponseDto save(AppointmentRequestDto appointmentDto);
+    List<AppointmentResponseDto> findAll();
+    AppointmentResponseDto findById(Long id);
 }
