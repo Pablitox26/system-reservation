@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administración de Odontólogos</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header>
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="odontologos.html">Odontólogos</a></li>
+      <li><a href="pacientes.html">Pacientes</a></li>
+      <li><a href="turnos.html">Turnos</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <h2>Administración de Odontólogos</h2>
+  <div id="odontologos-container">
+    <!-- Aquí se listarán los odontólogos -->
+  </div>
+  <button onclick="abrirFormulario()">Agregar Odontólogo</button>
+  <div id="formulario-odontologo" style="display:none;">
+    <h3>Nuevo Odontólogo</h3>
+    <form id="formOdontologo">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre">
+      <label for="apellido">Apellido:</label>
+      <input type="text" id="apellido" name="apellido">
+      <label for="matricula">Matrícula:</label>
+      <input type="text" id="matricula" name="matricula">
+      <button type="submit">Guardar</button>
+    </form>
+  </div>
+</main>
+<footer>
+  <p>&copy; 2024 Clínica Odontológica. Todos los derechos reservados.</p>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>

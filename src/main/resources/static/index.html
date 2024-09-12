@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Citas Clínica Odontológica</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>Sistema de Citas Clínica Odontológica</h1>
+  <nav>
+    <ul>
+      <li><a href="#dentists" onclick="showContent('dentists')">Dentistas</a></li>
+      <li><a href="#patients" onclick="showContent('patients')">Pacientes</a></li>
+      <li><a href="#appointments" onclick="showContent('appointments')">Citas</a></li>
+    </ul>
+  </nav>
+
+  <div id="dentists" class="content">
+    <h2>Listado de Dentistas</h2>
+    <button onclick="showForm('dentists', 'create')">Agregar Dentista</button>
+    <table id="dentistsTable">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Licencia Médica</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div id="patients" class="content">
+    <h2>Listado de Pacientes</h2>
+    <button onclick="showForm('patients', 'create')">Agregar Paciente</button>
+    <table id="patientsTable">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>DNI</th>
+        <th>Fecha de Alta</th>
+        <th>Dirección</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div id="appointments" class="content">
+    <h2>Listado de Citas</h2>
+    <button onclick="showForm('appointments', 'create')">Agregar Cita</button>
+    <table id="appointmentsTable">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Odontólogo</th>
+        <th>Paciente</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div id="form" class="form"></div>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>
