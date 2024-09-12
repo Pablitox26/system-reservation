@@ -60,31 +60,24 @@ public class PatientServiceTests {
 
     @Test
     public void testSavePatient() {
-        // Mock the ObjectMapper to convert DTO to Entity and vice versa
         when(objectMapper.convertValue(samplePatientRequestDto, Patient.class)).thenReturn(samplePatient);
         when(objectMapper.convertValue(samplePatient, PatientResponseDto.class)).thenReturn(samplePatientResponseDto);
 
-        // Mock the repository save operation
         when(patientRepository.save(samplePatient)).thenReturn(samplePatient);
 
-        // Call the service method
         PatientResponseDto response = patientService.save(samplePatientRequestDto);
 
-        // Verify and assert the results
         assertEquals(samplePatientResponseDto.getName(), response.getName());
         verify(patientRepository, times(1)).save(samplePatient);
     }
 
     @Test
     public void testFindAllPatients() {
-        // Mock the repository findAll() method
         when(patientRepository.findAll()).thenReturn(List.of(samplePatient));
         when(objectMapper.convertValue(samplePatient, PatientResponseDto.class)).thenReturn(samplePatientResponseDto);
 
-        // Call the service method
         List<PatientResponseDto> patients = patientService.findAll();
 
-        // Verify and assert
         assertEquals(1, patients.size());
         assertEquals(samplePatientResponseDto.getName(), patients.get(0).getName());
         verify(patientRepository, times(1)).findAll();
@@ -92,21 +85,17 @@ public class PatientServiceTests {
 
     @Test
     public void testFindById() {
-        // Mock the repository findById() method
         when(patientRepository.findById(1L)).thenReturn(Optional.of(samplePatient));
         when(objectMapper.convertValue(samplePatient, PatientResponseDto.class)).thenReturn(samplePatientResponseDto);
 
-        // Call the service method
         PatientResponseDto response = patientService.findById(1L);
 
-        // Verify and assert
         assertEquals(samplePatientResponseDto.getId(), response.getId());
         verify(patientRepository, times(1)).findById(1L);
     }
 
     @Test
     public void testUpdatePatient() {
-        // Mock the findById and save methods
         PatientRequestToUpdateDto updateDto = new PatientRequestToUpdateDto();
         updateDto.setId(1L);
         updateDto.setName("Jane");
@@ -118,23 +107,18 @@ public class PatientServiceTests {
         when(objectMapper.convertValue(samplePatient, PatientResponseDto.class)).thenReturn(samplePatientResponseDto);
         when(patientRepository.save(samplePatient)).thenReturn(samplePatient);
 
-        // Call the service method
         PatientResponseDto response = patientService.update(updateDto);
 
-        // Verify and assert
         assertEquals(samplePatientResponseDto.getName(), response.getName());
         verify(patientRepository, times(1)).save(samplePatient);
     }
 
     @Test
     public void testDeletePatient() {
-        // Mock the findById and deleteById methods
         when(patientRepository.findById(1L)).thenReturn(Optional.of(samplePatient));
 
-        // Call the service method
         patientService.delete(1L);
 
-        // Verify delete operation
         verify(patientRepository, times(1)).deleteById(1L);
     }
 }
