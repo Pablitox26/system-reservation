@@ -26,7 +26,7 @@ function fetchData(entity, tableId) {
             data.forEach(item => {
                 const row = document.createElement('tr');
                 Object.keys(item).forEach(key => {
-                    if (key !== 'appointments' && key !== 'address') {
+                    if (key !== 'appointments') {
                         const cell = document.createElement('td');
                         if (key === 'date') {
                             cell.textContent = new Date(item[key]).toLocaleString();
@@ -101,8 +101,15 @@ function generateFormFields(entity, id) {
             <input type="text" id="dni" name="dni" required />
             <label for="dischargeDate">Fecha de Alta:</label>
             <input type="date" id="dischargeDate" name="dischargeDate" required />
-            <label for="address">Dirección:</label>
-            <input type="text" id="address" name="address" />
+            <label for="street">Calle:</label>
+            <input type="text" id="street" name="street" />
+            <label for="number">Número:</label>
+            <input type="number" id="number" name="number" />
+            <label for="location">Localidad:</label>
+            <input type="text" id="location" name="location" />
+            <label for="province">Provincia:</label>
+            <input type="text" id="province" name="province" />
+
         `;
     } else if (entity === 'dentists') {
         return `

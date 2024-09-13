@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class AppointmentResponseDto {
     private Long id;
-    private String date;
     private PatientResponseDto patient;
     private DentistResponseDto dentist;
+    private String date;
 }
