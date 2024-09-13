@@ -2,7 +2,6 @@ package com.dh.reservation_system.services.impl;
 
 import com.dh.reservation_system.dtos.AppointmentRequestDto;
 import com.dh.reservation_system.dtos.AppointmentResponseDto;
-import com.dh.reservation_system.dtos.PatientResponseDto;
 import com.dh.reservation_system.entities.Appointment;
 import com.dh.reservation_system.entities.Dentist;
 import com.dh.reservation_system.entities.Patient;
@@ -69,7 +68,24 @@ public class AppointmentService implements IAppointmentService {
     }
 
     private AppointmentResponseDto mapToDto(Appointment appointment) {
-        return objectMapper.convertValue(appointment, AppointmentResponseDto.class);
+        AppointmentResponseDto appointmentResponseDto = new AppointmentResponseDto();
+        appointmentResponseDto.setId(appointment.getId());
+
+        if (appointment.getPatient() != null) {
+            String patientFullName = appointment.getPatient().getName() + " " + appointment.getPatient().getLastName();
+            appointmentResponseDto.setPatient(patientFullName);
+        }
+
+        if (appointment.getDentist() != null) {
+            String dentistFullName = appointment.getDentist().getName() + " " + appointment.getDentist().getLastName();
+            appointmentResponseDto.setDentist(dentistFullName);
+        }
+
+        if (appointment.getDate() != null) {
+            appointmentResponseDto.setDate(appointment.getDate().toString());
+        }
+
+        return appointmentResponseDto;
     }
 
     private Appointment mapToEntity(AppointmentRequestDto appointmentDto) {

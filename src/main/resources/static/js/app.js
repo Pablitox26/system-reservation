@@ -67,11 +67,17 @@ function showForm(entity, action, id = null) {
         const data = Object.fromEntries(formData.entries());
         const method = action === 'create' ? 'POST' : 'PUT';
         const url = action === 'create' ? `http://localhost:8080/${entity}` : `http://localhost:8080/${entity}/${data.id}`;
-
+        const {street, number, location, province, ...rest} = data
+        const dataRefactored = {
+            ...rest,
+            "address": {
+                street, number, location, province
+            }
+        }
         fetch(url, {
             method: method,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            body: JSON.stringify(dataRefactored)
         })
         .then(response => response.json())
         .then(() => {
