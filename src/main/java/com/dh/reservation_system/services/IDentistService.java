@@ -10,7 +10,7 @@ public interface IDentistService {
     DentistResponseDto save(DentistRequestDto dentistDto);
     List<DentistResponseDto> findAll();
     DentistResponseDto findById(Long id);
-    DentistResponseDto update(DentistRequestToUpdateDto dentistDto);
+    DentistResponseDto update(Long id, DentistRequestToUpdateDto dentistRequestToUpdateDto);
     DentistResponseDto findByLicenseMedical(String licenseMedical);
     void delete(Long id);
 }

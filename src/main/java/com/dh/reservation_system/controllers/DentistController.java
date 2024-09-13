@@ -42,9 +42,9 @@ public class DentistController {
         return ResponseEntity.ok(dentistService.findByLicenseMedical(licenseMedical));
     }
 
-    @PutMapping
-    public ResponseEntity<DentistResponseDto> update(@Valid @RequestBody DentistRequestToUpdateDto dentistRequestDto) {
-        return ResponseEntity.ok(dentistService.update(dentistRequestDto));
+    @PutMapping("/{id}")
+    public ResponseEntity<DentistResponseDto> update(@PathVariable Long id, @Valid @RequestBody DentistRequestToUpdateDto dentistRequestToUpdateDto) {
+        return ResponseEntity.ok(dentistService.update(id, dentistRequestToUpdateDto));
     }
 
     @DeleteMapping("/{id}")

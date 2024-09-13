@@ -72,11 +72,26 @@ public class DentistService implements IDentistService {
 
     @Override
     @Transactional
-    public DentistResponseDto update(DentistRequestToUpdateDto dentistRequestToUpdateDto) {
-        logger.info("Updateing dentist with id: "+ dentistRequestToUpdateDto.getId());
-        findById(dentistRequestToUpdateDto.getId());
-        Dentist updatedDentist = dentistRepository.save(mapToEntity(dentistRequestToUpdateDto));
-        logger.info("Dentist with ID: " + dentistRequestToUpdateDto.getId() + " updated successfully");
+    public DentistResponseDto update(Long id, DentistRequestToUpdateDto dentistRequestToUpdateDto) {
+        logger.info("Updating dentist with id: " + id);
+
+        Dentist existingDentist = dentistRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Dentist with id " + id + " not found")
+        );
+
+        if (dentistRequestToUpdateDto.getName() != null) {
+            existingDentist.setName(dentistRequestToUpdateDto.getName());
+        }
+        if (dentistRequestToUpdateDto.getLastName() != null) {
+            existingDentist.setLastName(dentistRequestToUpdateDto.getLastName());
+        }
+        if (dentistRequestToUpdateDto.getLicenseMedical() != null) {
+            existingDentist.setLicenseMedical(dentistRequestToUpdateDto.getLicenseMedical());
+        }
+
+        Dentist updatedDentist = dentistRepository.save(existingDentist);
+        logger.info("Dentist updated with id: " + id);
+
         return mapToDto(updatedDentist);
     }
 
