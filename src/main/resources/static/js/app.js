@@ -38,7 +38,7 @@ function fetchData(entity, tableId) {
                 });
                 const actionsCell = document.createElement('td');
                 actionsCell.innerHTML = `
-                    <button onclick="showForm('${entity}', 'update', ${item.id})">Editar</button>
+                    <button onclick='showForm("${entity}", "update", ${JSON.stringify(item)})'>Editar</button>
                     <button onclick="deleteItem('${entity}', ${item.id})">Eliminar</button>
                 `;
                 row.appendChild(actionsCell);
@@ -47,13 +47,13 @@ function fetchData(entity, tableId) {
         });
 }
 
-function showForm(entity, action, id = null) {
+function showForm(entity, action, item = null) {
     const formContainer = document.getElementById('form');
     let formHtml = `<h2>${action === 'create' ? `Agregar ${capitalize(entity)}` : `Editar ${capitalize(entity)}`}</h2>
         <form id="${entity}Form">
 
-                ${generateFormFields(entity, id)}
-                <input type="hidden" name="id" value="${id || ''}" />
+                ${generateFormFields(entity,action, item)}
+                <input type="hidden" name="id" value="${item?.id || ''}" />
 
             <button type="submit">${action === 'create' ? 'Agregar' : 'Actualizar'}</button>
         </form>`;
@@ -67,29 +67,32 @@ function showForm(entity, action, id = null) {
         const data = Object.fromEntries(formData.entries());
         const method = action === 'create' ? 'POST' : 'PUT';
         const url = action === 'create' ? `http://localhost:8080/${entity}` : `http://localhost:8080/${entity}/${data.id}`;
-        const {street, number, location, province, ...rest} = data
+
+        const { street, number, location, province, ...rest } = data;
         const dataRefactored = {
             ...rest,
             "address": {
                 street, number, location, province
             }
-        }
+        };
+
         fetch(url, {
             method: method,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dataRefactored)
         })
-        .then(response => response.json())
-        .then(() => {
-            fetchData(entity, `${entity}Table`);
-            formContainer.style.display = 'none';
-        });
+            .then(response => response.json())
+            .then(() => {
+                fetchData(entity, `${entity}Table`);
+                formContainer.style.display = 'none';
+            });
     });
 }
 
-function generateFormFields(entity, id) {
+function generateFormFields(entity,action, item) {
     if (entity === 'appointments') {
-        return `
+        if (action === 'create') {
+            return `
             <label for="date">Fecha:</label>
             <input type="datetime-local" id="date" name="date" required />
             <label for="patientId">Paciente ID:</label>
@@ -97,28 +100,60 @@ function generateFormFields(entity, id) {
             <label for="dentistId">Odontólogo ID:</label>
             <input type="number" id="dentistId" name="dentistId" required />
         `;
-    } else if (entity === 'patients') {
-        return `
-            <label for="name">Nombre:</label>
-            <input type="text" id="name" name="name" required />
-            <label for="lastName">Apellido:</label>
-            <input type="text" id="lastName" name="lastName" required />
-            <label for="dni">DNI:</label>
-            <input type="text" id="dni" name="dni" required />
-            <label for="dischargeDate">Fecha de Alta:</label>
-            <input type="date" id="dischargeDate" name="dischargeDate" required />
-            <label for="street">Calle:</label>
-            <input type="text" id="street" name="street" />
-            <label for="number">Número:</label>
-            <input type="number" id="number" name="number" />
-            <label for="location">Localidad:</label>
-            <input type="text" id="location" name="location" />
-            <label for="province">Provincia:</label>
-            <input type="text" id="province" name="province" />
-
+        } else if (action === 'update') {
+            return `
+            <label for="date">Fecha:</label>
+            <input type="datetime-local" id="date" name="date" value="${new Date(item?.date).toISOString().substring(0, 16)}" required />
+            <label for="patientId">Paciente ID:</label>
+            <input type="number" id="patientId" name="patientId" value="${item?.patientId}" required />
+            <label for="dentistId">Odontólogo ID:</label>
+            <input type="number" id="dentistId" name="dentistId" value="${item?.dentistId}" required />
         `;
+        }
+    } else if (entity === 'patients') {
+        if (action === 'create') {
+            return `
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" required />
+                <label for="lastName">Apellido:</label>
+                <input type="text" id="lastName" name="lastName" required />
+                <label for="dni">DNI:</label>
+                <input type="text" id="dni" name="dni" required />
+                <label for="dischargeDate">Fecha de Alta:</label>
+                <input type="date" id="dischargeDate" name="dischargeDate" required />
+                <label for="street">Calle:</label>
+                <input type="text" id="street" name="street" />
+                <label for="number">Número:</label>
+                <input type="number" id="number" name="number" />
+                <label for="location">Localidad:</label>
+                <input type="text" id="location" name="location" />
+                <label for="province">Provincia:</label>
+                <input type="text" id="province" name="province" />
+            `;
+        } else if (action === 'update') {
+            return `
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" value="${item?.name}" required />
+                <label for="lastName">Apellido:</label>
+                <input type="text" id="lastName" name="lastName" value="${item?.lastName}" required />
+                <label for="dni">DNI:</label>
+                <input type="text" id="dni" name="dni" value="${item?.dni}" required />
+                <label for="dischargeDate">Fecha de Alta:</label>
+                <input type="date" id="dischargeDate" name="dischargeDate" value="${item?.dischargeDate}" required />
+                <label for="street">Calle:</label>
+                <input type="text" id="street" name="street" value="${item?.address.street}" />
+                <label for="number">Número:</label>
+                <input type="number" id="number" name="number" value="${item?.address.number}" />
+                <label for="location">Localidad:</label>
+                <input type="text" id="location" name="location" value="${item?.address.location}" />
+                <label for="province">Provincia:</label>
+                <input type="text" id="province" name="province" value="${item?.address.province}" />
+    
+            `;
+        }
     } else if (entity === 'dentists') {
-        return `
+        if (action === 'create') {
+            return `
             <label for="name">Nombre:</label>
             <input type="text" id="name" name="name" required />
             <label for="lastName">Apellido:</label>
@@ -126,6 +161,16 @@ function generateFormFields(entity, id) {
             <label for="licenseMedical">Licencia Médica:</label>
             <input type="text" id="licenseMedical" name="licenseMedical" required />
         `;
+        } else if (action === 'update') {
+            return `
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" value="${item?.name}" required />
+            <label for="lastName">Apellido:</label>
+            <input type="text" id="lastName" name="lastName" value="${item?.lastName}" required />
+            <label for="licenseMedical">Licencia Médica:</label>
+            <input type="text" id="licenseMedical" name="licenseMedical" value="${item?.licenseMedical}" required />
+        `;
+        }
     }
 }
 
