@@ -11,5 +11,5 @@ public class PatientResponseDto {
     private String lastName;
     private String dni;
     private String dischargeDate;
-    private AddressResponseDto address;
+    private String address;
 }

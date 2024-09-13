@@ -11,4 +11,5 @@ public class PatientRequestToUpdateDto {
     private String lastName;
     private String dni;
     private String dischargeDate;
+    private AddressRequestDto address;
 }

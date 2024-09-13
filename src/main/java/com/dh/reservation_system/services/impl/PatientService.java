@@ -74,7 +74,26 @@ public class PatientService implements IPatientService {
     }
 
     private PatientResponseDto mapToDto(Patient patient) {
-        return objectMapper.convertValue(patient, PatientResponseDto.class);
+        // Create the DTO and map basic fields
+        PatientResponseDto patientResponseDto = new PatientResponseDto();
+        patientResponseDto.setId(patient.getId());
+        patientResponseDto.setName(patient.getName());
+        patientResponseDto.setLastName(patient.getLastName());
+        patientResponseDto.setDni(patient.getDni());
+        patientResponseDto.setDischargeDate(patient.getDischargeDate().toString()); // Convert LocalDate to String
+
+        // Manually concatenate the address fields
+        if (patient.getAddress() != null) {
+            String concatenatedAddress = String.format("%s %d, %s, %s",
+                    patient.getAddress().getStreet(),
+                    patient.getAddress().getNumber(),
+                    patient.getAddress().getLocation(),
+                    patient.getAddress().getProvince()
+            );
+            patientResponseDto.setAddress(concatenatedAddress);
+        }
+
+        return patientResponseDto;
     }
 
     private Patient mapToEntity(PatientRequestDto patientDto) {
